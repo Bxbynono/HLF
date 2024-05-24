@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/upload.css">
+    <title>Upload</title>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="https://i.pinimg.com/564x/1e/c1/1a/1ec11a869384bc5e59625bac39b6a099.jpg" alt="">
+        <span>Apple supplychain</span>
+        <ul>
+            <li><a href="upload.html">Add Product</a></li>
+            <li><a href="product.html">All Products</a></li>
+        </ul>
+    </div>
+
+    <div class="main_body">
+        <div class="profile">
+            <span>Manufacturer</span>
+            <img src="https://i.pinimg.com/564x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg" alt="#">
+        </div>
+        <h2>Upload Product Details</h2>
+        <form id="uploadForm" class="upload_form">
+            <label>Product ID:
+                <input type="number" id="productId" placeholder="Product ID" required>
+            </label>
+            <label>Name:
+                <input type="text" id="productName" placeholder="Product Name" required>
+            </label>
+            <label>Description:
+                <input type="text" id="productDescription" placeholder="Product Description" required>
+            </label>
+            <label>Price:
+                <input type="number" id="productPrice" placeholder="Product Price" required>
+            </label>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const productId = document.getElementById('productId').value;
+            const productName = document.getElementById('productName').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productPrice = document.getElementById('productPrice').value;
+
+            const response = await fetch('/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: productId, name: productName, description: productDescription, price: productPrice })
+            });
+
+            if (response.ok) {
+                alert('Product uploaded successfully!');
+            } else {
+                alert('Failed to upload product.');
+            }
+        });
+    </script>
+</body>
+</html>

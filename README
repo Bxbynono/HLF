@@ -1,0 +1,51 @@
+# Hyperledger Fabric Project(Supplychain)
+
+This repository contains a Hyperledger Fabric project. The project includes configurations and necessary files to set up and run a Hyperledger Fabric network.
+
+## Project Structure
+project-root/
+├── .gitignore
+├── README.md
+├── configtx/
+├── crypto-config/
+├── channel-artifacts/
+├── docker-compose.yaml
+├── node_modules/
+├── dist/
+├── build/
+├── .env
+├── msp/
+├── tls/
+├── .vscode
+
+## Installation
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Node.js and npm](https://nodejs.org/) (if your project includes Node.js components)
+
+### Steps
+
+1. **Clone the Repository**
+
+   ```sh
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
+
+   #npm install
+   run this to install the node modeule dependecnies
+2. **Generate Crypto Material and Configuration Files **
+   cryptogen generate --config=./crypto-config.yaml
+   configtxgen -profile SampleMultiNodeEtcdRaft -outputBlock ./channel-artifacts/genesis.block -channelID system-channel
+   configtxgen -profile SampleMultiNodeEtcdRaft -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mychannel
+3. Start the Network
+   docker-compose -f docker-compose.yaml up -d
+
+4. Create and Join the Channel
+   docker exec -it cli bash
+   peer channel create -o orderer.example.com:7050 -c mychannel -f ./channel-artifacts/channel.tx
+   peer channel join -b mychannel.block

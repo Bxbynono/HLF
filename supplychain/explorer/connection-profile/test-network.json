@@ -1,0 +1,51 @@
+{
+	"name": "test-network",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": false,
+		"adminCredential": {
+			"id": "admin",
+			"password": "admin"
+		},
+		"enableAuthentication": false,
+		"organization": "SupplychainMSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"supplychainchannel": {
+			"peers": {
+				"customer.supplychain.com": {},
+				"manufacturer.supplychain.com": {}
+			}
+		}
+	},
+		
+	"organizations": {
+		"SupplychainMSP": {
+			"mspid": "SupplychainMSP",
+			"adminPrivateKey": {
+				"path": "/temp/crypto/peerOrganizations/supplychain.com/users/Admin@supplychain.com/msp/keystore/priv_sk"
+
+			},
+			"peers": ["customer.supplychain.com","manufacturer.supplychain.com"],
+			"signedCert": {
+				"path": "/temp/crypto/peerOrganizations/supplychain.com/users/Admin@supplychain.com/msp/signcerts/Admin@supplychain.com-cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"customer.supplychain.com": {
+			"url": "grpc://customer.supplychain.com:7051"
+			},
+			"manufacturer.supplychain.com": {
+			"url": "grpc://manufacturer.supplychain.com:7051"
+			}
+	}
+}

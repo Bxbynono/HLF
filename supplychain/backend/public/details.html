@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/details.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <title>details</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s;
+        }
+        .modal-content h2{
+            color: #000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        #modalProductManufacturer {
+            display: block;
+            width: 100%;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navigation">
+        <img src="https://i.pinimg.com/564x/95/84/d5/9584d5e3baae3add6ffa57e6bd34587b.jpg" alt="#">
+        <nav>
+            <li><a href="details.html">Track Product</a></li>
+            <li><a href="login.html">Login</a></li>
+
+        </nav>
+    </div>
+    <div class="hero">
+        <div class="hero_text">
+            <p>Apple's supply chain is a global, highly efficient network involving thousands of suppliers that support
+                the production of millions of devices each year.</p>
+        </div>
+        <div class="hero_btn">
+            <button>Explore More</button>
+            <button><a href="login.html">Get Started</a></button>
+        </div>
+    </div>
+    <div class="track">
+        <label>Trace Your Product Details:</label>
+        <input type="number" id="productID" placeholder="Enter Product ID">
+        <button id="trackButton">Track</button>
+    </div>
+    <h2>latest Product</h2>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/564x/4a/d8/ad/4ad8ad9edf0231341ee4bec3ff7cb414.jpg" alt="Image 1">
+        </div>
+        <div class="gallery-item wide">
+            <img src="https://i.pinimg.com/564x/bc/a5/5a/bca55a74b33892537704d9bba167a204.jpg" alt="Image 2">
+        </div>
+        <div class="gallery-item tall">
+            <img src="https://i.pinimg.com/564x/f1/44/29/f1442933796a5768d0187be4addff619.jpg" alt="Image 3">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/564x/36/b0/7c/36b07c8cff3a450786240a58b2bc37bf.jpg" alt="Image 4">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/564x/a8/07/e4/a807e45b6013cff6748b6336777cf519.jpg" alt="Image 5">
+        </div>
+        <div class="gallery-item wide">
+            <img src="https://i.pinimg.com/564x/94/50/bb/9450bb0dd5ad07ede5145d2cfd0a7472.jpg" alt="Image 6">
+        </div>
+        <div class="gallery-item tall">
+            <img src="https://i.pinimg.com/564x/c8/ff/ba/c8ffba3731b1f6c9e853be4be7d5fde4.jpg" alt="Image 7">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/564x/09/47/c5/0947c5ed025f300862c0d9181c71afe1.jpg" alt="Image 8">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/564x/a3/5b/ce/a35bce0d416725c343de1530d51c4bfe.jpg" alt="Image 9">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/564x/9b/7e/85/9b7e85502cdee77a8afc735d78609012.jpg" alt="Image 10">
+        </div>
+        <!--  -->
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/736x/ed/cf/f7/edcff726e6385d1301ea206a40ca0e1e.jpg" alt="Image 10">
+        </div>
+    </div>
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Product Details</h2>
+            <p><strong>ID:</strong> <span id="modalProductID"></span></p>
+            <p><strong>Name:</strong> <span id="modalProductName"></span></p>
+            <p><strong>Description:</strong> <span id="modalProductDescription"></span></p>
+            <p><strong>Price:</strong> <span id="modalProductPrice"></span></p>
+            <p><strong>Manufacturer:</strong> <span id="modalProductManufacturer"></span></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 Apple supply chain. All Rights Reserved.
+    </div>
+
+    <script>
+        document.getElementById('trackButton').addEventListener('click', async function () {
+            const productID = document.getElementById('productID').value;
+            if (!productID) {
+                alert('Please enter a product ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/products/${productID}`);
+                if (!response.ok) {
+                    throw new Error('Product not found');
+                }
+                const product = await response.json();
+
+                document.getElementById('modalProductID').textContent = product.id;
+                document.getElementById('modalProductName').textContent = product.name;
+                document.getElementById('modalProductDescription').textContent = product.description;
+                document.getElementById('modalProductPrice').textContent = product.price;
+                document.getElementById('modalProductManufacturer').textContent = product.manufacturer;
+
+                document.getElementById('productModal').style.display = 'block';
+
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+
+        document.getElementsByClassName('close')[0].onclick = function () {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('productModal')) {
+                document.getElementById('productModal').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

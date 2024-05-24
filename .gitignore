@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Build directories
+dist/
+build/
+
+# Environment variables
+.env
+
+# Fabric crypto material
+crypto-config/
+fabric-ca/
+msp/
+tls/
+
+# Fabric configuration
+channel-artifacts/
+configtx/
+*.block
+*.tx
+
+# Docker artifacts
+docker-compose*.yaml
+docker-compose*.yml
+*.tar
+
+# VS Code directories
+.vscode/
+
+# MacOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
